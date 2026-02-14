@@ -3,33 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>القرص الدوار - رسوم بيانية مثالية</title>
+    <title>القرص الدوار - النسخة الاحترافية</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root { --primary: #8b5cf6; }
-        body { 
-            font-family: 'Baloo Bhaijaan 2', cursive; 
-            overflow: hidden; 
-            user-select: none; 
-        }
+        body { font-family: 'Baloo Bhaijaan 2', cursive; overflow: hidden; user-select: none; }
 
-        /* === الخلفية الطبيعية === */
-        .nature-bg {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(to bottom, #87CEEB 0%, #E0F6FF 60%, #90EE90 60%, #228B22 100%);
-            z-index: -2; overflow: hidden;
-        }
-        .sun {
-            position: absolute; top: 50px; right: 50px; width: 100px; height: 100px;
-            background: radial-gradient(circle, #FFD700, #FFA500); border-radius: 50%;
-            box-shadow: 0 0 40px #FFD700; animation: sunPulse 4s infinite alternate;
-        }
+        /* الخلفية الطبيعية */
+        .nature-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, #87CEEB 0%, #E0F6FF 60%, #90EE90 60%, #228B22 100%); z-index: -2; overflow: hidden; }
+        .sun { position: absolute; top: 50px; right: 50px; width: 100px; height: 100px; background: radial-gradient(circle, #FFD700, #FFA500); border-radius: 50%; box-shadow: 0 0 40px #FFD700; animation: sunPulse 4s infinite alternate; }
         @keyframes sunPulse { from { transform: scale(1); } to { transform: scale(1.1); } }
-        
-        .cloud {
-            position: absolute; background: white; border-radius: 50px; opacity: 0.8; animation: moveCloud linear infinite;
-        }
+        .cloud { position: absolute; background: white; border-radius: 50px; opacity: 0.8; animation: moveCloud linear infinite; }
         .cloud::after, .cloud::before { content: ''; position: absolute; background: white; border-radius: 50%; }
         .c1 { width: 120px; height: 60px; top: 10%; left: -20%; animation-duration: 45s; }
         .c1::after { width: 50px; height: 50px; top: -25px; left: 20px; }
@@ -38,18 +23,12 @@
         .c2::after { width: 40px; height: 40px; top: -20px; left: 15px; }
         @keyframes moveCloud { 0% { left: -20%; } 100% { left: 120%; } }
 
-        /* === القرص 3D === */
+        /* العناصر */
         .wheel-wrapper { position: relative; filter: drop-shadow(0 20px 10px rgba(0,0,0,0.3)); transition: transform 0.3s; }
         .wheel-wrapper:active { transform: scale(0.98); }
-        .wheel-svg {
-            transition: transform 4s cubic-bezier(0.25, 0.1, 0.25, 1);
-            border-radius: 50%;
-            box-shadow: 0 0 0 10px #fbbf24, 0 0 0 20px #f59e0b, inset 0 0 20px rgba(0,0,0,0.5);
-        }
+        .wheel-svg { transition: transform 4s cubic-bezier(0.25, 0.1, 0.25, 1); border-radius: 50%; box-shadow: 0 0 0 10px #fbbf24, 0 0 0 20px #f59e0b, inset 0 0 20px rgba(0,0,0,0.5); }
         .pointer-container { position: absolute; top: -30px; left: 50%; transform: translateX(-50%); z-index: 20; filter: drop-shadow(0 5px 5px rgba(0,0,0,0.4)); }
-
-        /* === الواجهة === */
-        .glass-panel { background: rgba(255, 255, 255, 0.95); border: 4px solid white; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+        .glass-panel { background: rgba(255, 255, 255, 0.9); border: 4px solid white; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
         .btn-3d { background: linear-gradient(to bottom, #ef4444, #b91c1c); color: white; border: none; border-radius: 50px; box-shadow: 0 8px 0 #7f1d1d, 0 15px 20px rgba(0,0,0,0.3); transition: all 0.1s; cursor: pointer; }
         .btn-3d:active { transform: translateY(8px); box-shadow: 0 0 0 #7f1d1d, 0 0 0 rgba(0,0,0,0.3); }
         .option-btn { background: white; border: 2px solid #e2e8f0; border-radius: 12px; box-shadow: 0 4px 0 #cbd5e1; transition: all 0.1s; cursor: pointer; }
@@ -58,21 +37,9 @@
         .option-btn.wrong { background: #fca5a5; border-color: #ef4444; box-shadow: 0 4px 0 #b91c1c; }
         .hidden { display: none !important; }
         .confetti { position: fixed; width: 10px; height: 10px; z-index: 100; pointer-events: none; }
-
-        /* === تنسيق الرسوم البيانية === */
-        .chart-container {
-            display: flex; justify-content: center; align-items: center;
-            margin-bottom: 1.5rem;
-            background: #fff;
-            border-radius: 15px;
-            padding: 15px; /* زيادة الحشوة */
-            border: 2px solid #e2e8f0;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
-            overflow: visible; /* السماح بظهور العناصر الخارجية */
-        }
-        .chart-svg { height: 280px; width: 100%; max-width: 500px; overflow: visible; } /* زيادة الارتفاع والسماح بالظهور */
         
-        /* أنماط SVG */
+        .chart-container { display: flex; justify-content: center; align-items: center; margin-bottom: 1.5rem; background: #fff; border-radius: 15px; padding: 15px; border: 2px solid #e2e8f0; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05); }
+        .chart-svg { height: 280px; width: 100%; max-width: 500px; overflow: visible; }
         .axis-line { stroke: #475569; stroke-width: 2; }
         .grid-line { stroke: #e2e8f0; stroke-width: 1; }
         .axis-text { font-size: 11px; fill: #64748b; font-family: sans-serif; font-weight: 500; }
@@ -83,12 +50,8 @@
 </head>
 <body>
 
-    <div class="nature-bg">
-        <div class="sun"></div>
-        <div class="cloud c1"></div>
-        <div class="cloud c2"></div>
-    </div>
-
+    <div class="nature-bg"><div class="sun"></div><div class="cloud c1"></div><div class="cloud c2"></div></div>
+    
     <button id="muteBtn" class="fixed top-4 left-4 z-50 bg-white/50 backdrop-blur p-3 rounded-full shadow-lg text-2xl cursor-pointer hover:scale-110 transition-transform">🔊</button>
 
     <div id="startScreen" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/40 backdrop-blur-sm p-4">
@@ -104,7 +67,6 @@
     </div>
 
     <div id="gameScreen" class="hidden h-full w-full max-w-7xl mx-auto p-4 flex flex-col md:flex-row gap-6 items-center justify-center">
-        
         <div class="w-full md:w-80 flex flex-col gap-4 self-start mt-4">
             <div class="glass-panel p-4 text-center bg-yellow-50">
                 <p class="text-gray-500 font-bold text-sm">الدور على الفريق:</p>
@@ -112,13 +74,10 @@
             </div>
             <div class="glass-panel p-4 flex-1 flex flex-col max-h-[500px]">
                 <div class="flex justify-between items-center border-b pb-2 mb-2">
-                    <h3 class="text-lg font-bold text-gray-700">النتائج</h3>
-                    <span class="text-2xl">🏆</span>
+                    <h3 class="text-lg font-bold text-gray-700">النتائج</h3> <span class="text-2xl">🏆</span>
                 </div>
                 <div id="scoreboard" class="space-y-2 overflow-y-auto flex-1 p-1"></div>
-                <div class="mt-2 text-center bg-purple-100 rounded-lg p-2 font-bold text-purple-800">
-                    السؤال: <span id="qNum" class="text-xl">1</span> / 32
-                </div>
+                <div class="mt-2 text-center bg-purple-100 rounded-lg p-2 font-bold text-purple-800">السؤال: <span id="qNum" class="text-xl">1</span> / 32</div>
             </div>
         </div>
 
@@ -126,23 +85,12 @@
             <div id="wheelSection" class="flex flex-col items-center justify-center transform transition-all duration-500">
                 <div class="wheel-wrapper mb-8">
                     <div class="pointer-container">
-                        <svg width="60" height="70" viewBox="0 0 50 60">
-                            <path d="M25 60 L0 0 L50 0 Z" fill="#eab308" stroke="#a16207" stroke-width="3"/>
-                            <circle cx="25" cy="5" r="5" fill="#713f12"/>
-                        </svg>
+                        <svg width="60" height="70" viewBox="0 0 50 60"><path d="M25 60 L0 0 L50 0 Z" fill="#eab308" stroke="#a16207" stroke-width="3"/><circle cx="25" cy="5" r="5" fill="#713f12"/></svg>
                     </div>
                     <svg id="wheel" class="wheel-svg cursor-pointer w-[350px] h-[350px] md:w-[500px] md:h-[500px]" viewBox="0 0 400 400">
-                        <defs>
-                            <radialGradient id="gradShadow" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
-                                <stop offset="85%" style="stop-color:rgb(0,0,0,0)" />
-                                <stop offset="100%" style="stop-color:rgb(0,0,0,0.3)" />
-                            </radialGradient>
-                        </defs>
-                        <circle cx="200" cy="200" r="198" fill="#333" />
-                        <g id="wheelSegments"></g>
-                        <circle cx="200" cy="200" r="198" fill="url(#gradShadow)" pointer-events="none"/>
-                        <circle cx="200" cy="200" r="50" fill="#f3f4f6" stroke="#9ca3af" stroke-width="2"/>
-                        <circle cx="200" cy="200" r="40" fill="#ef4444" stroke="#b91c1c" stroke-width="0" style="filter: drop-shadow(0 4px 2px rgba(0,0,0,0.3))"/>
+                        <defs><radialGradient id="gradShadow" cx="50%" cy="50%" r="50%" fx="50%" fy="50%"><stop offset="85%" style="stop-color:rgb(0,0,0,0)" /><stop offset="100%" style="stop-color:rgb(0,0,0,0.3)" /></radialGradient></defs>
+                        <circle cx="200" cy="200" r="198" fill="#333" /><g id="wheelSegments"></g><circle cx="200" cy="200" r="198" fill="url(#gradShadow)" pointer-events="none"/>
+                        <circle cx="200" cy="200" r="50" fill="#f3f4f6" stroke="#9ca3af" stroke-width="2"/><circle cx="200" cy="200" r="40" fill="#ef4444" stroke="#b91c1c" stroke-width="0" style="filter: drop-shadow(0 4px 2px rgba(0,0,0,0.3))"/>
                         <text x="200" y="210" text-anchor="middle" font-size="28" font-weight="900" fill="white" style="text-shadow: 1px 1px 0px #991b1b; pointer-events: none;">أدر</text>
                     </svg>
                 </div>
@@ -157,10 +105,8 @@
                 </div>
                 <div class="glass-panel p-8 md:p-12 relative -mt-12 pt-16 text-center">
                     <h2 class="text-purple-600 font-bold text-xl mb-4 bg-purple-50 inline-block px-4 py-1 rounded-full">سؤال التحدي</h2>
-                    
                     <img id="qImage" src="" class="q-img-frame hidden">
                     <div id="chartContainer" class="chart-container hidden"></div>
-
                     <p id="qText" class="text-2xl md:text-3xl font-bold text-gray-800 mb-8 leading-relaxed"></p>
                     <div id="optionsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
                 </div>
@@ -173,14 +119,8 @@
             <div class="text-8xl mb-4 animate-bounce">🏆</div>
             <h2 class="text-5xl font-black text-purple-700 mb-6">النتائج النهائية</h2>
             <div class="flex justify-center gap-6 mb-8">
-                <div class="bg-green-50 p-4 rounded-xl border-2 border-green-200 w-1/3">
-                    <p class="text-green-700 font-bold">✅ صحيحة</p>
-                    <p id="finalCorrect" class="text-4xl font-black text-green-600">0</p>
-                </div>
-                <div class="bg-red-50 p-4 rounded-xl border-2 border-red-200 w-1/3">
-                    <p class="text-red-700 font-bold">❌ خاطئة</p>
-                    <p id="finalWrong" class="text-4xl font-black text-red-600">0</p>
-                </div>
+                <div class="bg-green-50 p-4 rounded-xl border-2 border-green-200 w-1/3"><p class="text-green-700 font-bold">✅ صحيحة</p><p id="finalCorrect" class="text-4xl font-black text-green-600">0</p></div>
+                <div class="bg-red-50 p-4 rounded-xl border-2 border-red-200 w-1/3"><p class="text-red-700 font-bold">❌ خاطئة</p><p id="finalWrong" class="text-4xl font-black text-red-600">0</p></div>
             </div>
             <div id="finalRanking" class="bg-gray-50 p-4 rounded-xl mb-8 space-y-2 text-right border border-gray-200 max-h-40 overflow-y-auto"></div>
             <button onclick="location.reload()" class="btn-3d text-2xl font-bold py-3 px-12 w-full">لعبة جديدة 🔄</button>
@@ -188,18 +128,24 @@
     </div>
 
     <script>
+        // ==========================================
+        //  إعدادات الصوت (الاسم الجديد: game_audio.mp3)
+        // ==========================================
         const audioFiles = { 
-            bg: new Audio('bc.mp3'), 
+            bg: new Audio('game_audio.mp3'),  // تأكد من أن ملفك في المجلد بهذا الاسم
             spin: new Audio('spin.mp3'), 
             correct: new Audio('correct.mp3'), 
             wrong: new Audio('wrong.mp3') 
         };
         
+        // تفعيل التكرار (Loop) للموسيقى
         audioFiles.bg.loop = true; 
+        
         let isMuted = false;
 
         function playBackgroundMusic() { 
             if(isMuted) return; 
+            // الشرط: شغل الموسيقى فقط إذا كانت متوقفة، لكي لا تعيد من البداية
             if(audioFiles.bg.paused) { 
                 audioFiles.bg.play().catch(e => console.log("User interaction needed")); 
             } 
@@ -207,58 +153,42 @@
         
         function playSfx(name) { 
             if(isMuted) return; 
-            try { audioFiles[name].currentTime = 0; audioFiles[name].play().catch(e => {}); } catch(e) {} 
+            try { 
+                audioFiles[name].currentTime = 0; 
+                audioFiles[name].play().catch(e => {}); 
+            } catch(e) {} 
         }
         
         function toggleMute() { 
             isMuted = !isMuted; 
             document.getElementById('muteBtn').textContent = isMuted ? '🔇' : '🔊'; 
-            if(isMuted) { audioFiles.bg.pause(); } else { playBackgroundMusic(); } 
+            if(isMuted) { 
+                audioFiles.bg.pause(); 
+            } else { 
+                playBackgroundMusic(); 
+            } 
         }
 
         const teams = ['الأبطال 🦁', 'العباقرة 💡', 'المبدعون 🎨', 'المحترفون 🚀'];
         let rotation = 0; let isSpinning = false;
         
-        // --- مولد الرسوم البيانية المحسن (أبعاد مضبوطة) ---
+        // مولدات الرسوم
         const createBarChart = (data, maxVal) => {
-            const chartH = 260; // زيادة الارتفاع الكلي
-            const drawH = 200; // زيادة ارتفاع الرسم
-            const startX = 50; // زيادة الهامش الأيسر للأرقام
-            const steps = 5;
-            
-            // ViewBox أوسع لاستيعاب التغييرات
+            const chartH = 260, drawH = 200, startX = 50, steps = 5;
             let svg = `<svg viewBox="0 0 380 ${chartH}" class="chart-svg">`;
-            
-            // 1. الشبكة وتدريج الأرقام
             const stepVal = maxVal / steps;
             for(let i=0; i<=steps; i++) {
-                const val = Math.round(i * stepVal);
-                const y = drawH - (val / maxVal * 180) + 20; // 180 هو ارتفاع الأعمدة الأقصى
-                
-                // خط الشبكة
+                const val = Math.round(i * stepVal); const y = drawH - (val / maxVal * 180) + 20;
                 svg += `<line x1="${startX}" y1="${y}" x2="360" y2="${y}" class="grid-line" />`;
-                // الرقم (محاذي لليمين وبعيد قليلاً عن الخط)
                 svg += `<text x="${startX - 8}" y="${y+3}" text-anchor="end" class="axis-text">${val}</text>`;
             }
-
-            // 2. المحاور الرئيسية
-            svg += `<line x1="${startX}" y1="${drawH+20}" x2="360" y2="${drawH+20}" class="axis-line" />`; // X
-            svg += `<line x1="${startX}" y1="20" x2="${startX}" y2="${drawH+20}" class="axis-line" />`; // Y
-
-            // 3. الأعمدة
-            const barWidth = 40;
-            const gap = 35; // مسافة بين الأعمدة
-            
+            svg += `<line x1="${startX}" y1="${drawH+20}" x2="360" y2="${drawH+20}" class="axis-line" />`;
+            svg += `<line x1="${startX}" y1="20" x2="${startX}" y2="${drawH+20}" class="axis-line" />`;
+            const barWidth = 40, gap = 35;
             data.forEach((d, i) => {
-                const height = (d.value / maxVal) * 180;
-                const x = startX + 25 + i * (barWidth + gap); 
-                const y = drawH + 20 - height;
-                
-                // العمود
+                const height = (d.value / maxVal) * 180; const x = startX + 25 + i * (barWidth + gap); const y = drawH + 20 - height;
                 svg += `<rect x="${x}" y="${y}" width="${barWidth}" height="${height}" fill="${d.color}" rx="4" />`;
-                // القيمة فوق العمود
                 svg += `<text x="${x + barWidth/2}" y="${y - 5}" text-anchor="middle" class="bar-val">${d.value}</text>`;
-                // الاسم تحت العمود (تم تعديل الموقع لعدم القص)
                 svg += `<text x="${x + barWidth/2}" y="${drawH + 45}" text-anchor="middle" class="bar-label">${d.label}</text>`;
             });
             svg += `</svg>`; return svg;
