@@ -3,17 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>القرص الدوار - النسخة الاحترافية</title>
+    <title>القرص الدوار - النسخة النهائية</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root { --primary: #8b5cf6; }
-        body { font-family: 'Baloo Bhaijaan 2', cursive; overflow: hidden; user-select: none; }
+        /* تفعيل التمرير العمودي لضمان ظهور كافة العناصر على الموبايل */
+        body { font-family: 'Baloo Bhaijaan 2', cursive; overflow-x: hidden; overflow-y: auto; user-select: none; }
 
-        /* الخلفية الطبيعية */
-        .nature-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, #87CEEB 0%, #E0F6FF 60%, #90EE90 60%, #228B22 100%); z-index: -2; overflow: hidden; }
+        /* الخلفية */
+        .nature-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, #87CEEB 0%, #E0F6FF 60%, #90EE90 60%, #228B22 100%); z-index: -2; }
         .sun { position: absolute; top: 50px; right: 50px; width: 100px; height: 100px; background: radial-gradient(circle, #FFD700, #FFA500); border-radius: 50%; box-shadow: 0 0 40px #FFD700; animation: sunPulse 4s infinite alternate; }
         @keyframes sunPulse { from { transform: scale(1); } to { transform: scale(1.1); } }
+        
         .cloud { position: absolute; background: white; border-radius: 50px; opacity: 0.8; animation: moveCloud linear infinite; }
         .cloud::after, .cloud::before { content: ''; position: absolute; background: white; border-radius: 50%; }
         .c1 { width: 120px; height: 60px; top: 10%; left: -20%; animation-duration: 45s; }
@@ -23,12 +25,12 @@
         .c2::after { width: 40px; height: 40px; top: -20px; left: 15px; }
         @keyframes moveCloud { 0% { left: -20%; } 100% { left: 120%; } }
 
-        /* العناصر */
+        /* التنسيقات */
         .wheel-wrapper { position: relative; filter: drop-shadow(0 20px 10px rgba(0,0,0,0.3)); transition: transform 0.3s; }
         .wheel-wrapper:active { transform: scale(0.98); }
         .wheel-svg { transition: transform 4s cubic-bezier(0.25, 0.1, 0.25, 1); border-radius: 50%; box-shadow: 0 0 0 10px #fbbf24, 0 0 0 20px #f59e0b, inset 0 0 20px rgba(0,0,0,0.5); }
         .pointer-container { position: absolute; top: -30px; left: 50%; transform: translateX(-50%); z-index: 20; filter: drop-shadow(0 5px 5px rgba(0,0,0,0.4)); }
-        .glass-panel { background: rgba(255, 255, 255, 0.9); border: 4px solid white; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+        .glass-panel { background: rgba(255, 255, 255, 0.95); border: 4px solid white; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
         .btn-3d { background: linear-gradient(to bottom, #ef4444, #b91c1c); color: white; border: none; border-radius: 50px; box-shadow: 0 8px 0 #7f1d1d, 0 15px 20px rgba(0,0,0,0.3); transition: all 0.1s; cursor: pointer; }
         .btn-3d:active { transform: translateY(8px); box-shadow: 0 0 0 #7f1d1d, 0 0 0 rgba(0,0,0,0.3); }
         .option-btn { background: white; border: 2px solid #e2e8f0; border-radius: 12px; box-shadow: 0 4px 0 #cbd5e1; transition: all 0.1s; cursor: pointer; }
@@ -38,114 +40,113 @@
         .hidden { display: none !important; }
         .confetti { position: fixed; width: 10px; height: 10px; z-index: 100; pointer-events: none; }
         
-        .chart-container { display: flex; justify-content: center; align-items: center; margin-bottom: 1.5rem; background: #fff; border-radius: 15px; padding: 15px; border: 2px solid #e2e8f0; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05); }
-        .chart-svg { height: 280px; width: 100%; max-width: 500px; overflow: visible; }
+        /* تنسيق الرسوم البيانية المتجاوب */
+        .chart-container { display: flex; justify-content: center; align-items: center; margin-bottom: 1rem; background: #fff; border-radius: 15px; padding: 10px; border: 2px solid #e2e8f0; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05); overflow-x: auto; }
+        .chart-svg { height: auto; max-height: 250px; width: 100%; max-width: 500px; overflow: visible; }
+        
+        /* SVG Elements */
         .axis-line { stroke: #475569; stroke-width: 2; }
         .grid-line { stroke: #e2e8f0; stroke-width: 1; }
         .axis-text { font-size: 11px; fill: #64748b; font-family: sans-serif; font-weight: 500; }
         .bar-val { font-size: 12px; fill: #334155; font-weight: bold; }
         .bar-label { font-size: 13px; fill: #1e293b; font-weight: bold; }
-        .q-img-frame { max-height: 200px; border-radius: 10px; margin: 0 auto 10px; display: block; border: 3px solid #e2e8f0; }
+        .q-img-frame { max-height: 180px; border-radius: 10px; margin: 0 auto 10px; display: block; border: 3px solid #e2e8f0; }
     </style>
 </head>
-<body>
+<body class="pb-10">
 
     <div class="nature-bg"><div class="sun"></div><div class="cloud c1"></div><div class="cloud c2"></div></div>
     
-    <button id="muteBtn" class="fixed top-4 left-4 z-50 bg-white/50 backdrop-blur p-3 rounded-full shadow-lg text-2xl cursor-pointer hover:scale-110 transition-transform">🔊</button>
+    <button id="muteBtn" class="fixed top-4 left-4 z-50 bg-white/80 backdrop-blur p-3 rounded-full shadow-lg text-2xl cursor-pointer hover:scale-110 transition-transform border-2 border-purple-200">🔊</button>
 
-    <div id="startScreen" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/40 backdrop-blur-sm p-4">
-        <div class="bg-white/95 p-10 rounded-3xl shadow-2xl text-center max-w-2xl w-full border-4 border-yellow-400">
-            <div class="w-32 h-32 mx-auto mb-6 bg-white rounded-full flex items-center justify-center shadow-lg border-4 border-purple-100 overflow-hidden">
-                <img src="logo.png" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3063/3063822.png'" class="w-24 h-24 object-contain">
+    <div id="startScreen" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/40 backdrop-blur-sm p-4 overflow-y-auto">
+        <div class="bg-white/95 p-8 md:p-10 rounded-3xl shadow-2xl text-center max-w-2xl w-full border-4 border-yellow-400 m-auto">
+            <div class="w-24 h-24 md:w-32 md:h-32 mx-auto mb-6 bg-white rounded-full flex items-center justify-center shadow-lg border-4 border-purple-100 overflow-hidden">
+                <img src="logo.png" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3063/3063822.png'" class="w-20 h-20 md:w-24 md:h-24 object-contain">
             </div>
-            <h1 class="text-6xl font-black text-purple-700 mb-2" style="-webkit-text-stroke: 1px white;">القرص الدوار</h1>
-            <p class="text-2xl text-gray-600 mb-8 font-bold">🌟 مسابقة الرياضيات الممتعة 🌟</p>
-            <button id="realStartBtn" class="btn-3d text-4xl font-black py-4 px-12 w-full">🚀 انطلق!</button>
+            <h1 class="text-4xl md:text-6xl font-black text-purple-700 mb-2" style="-webkit-text-stroke: 1px white;">القرص الدوار</h1>
+            <p class="text-xl md:text-2xl text-gray-600 mb-8 font-bold">🌟 مسابقة الرياضيات الممتعة 🌟</p>
+            <button id="realStartBtn" class="btn-3d text-2xl md:text-4xl font-black py-3 md:py-4 px-12 w-full">🚀 انطلق!</button>
         </div>
-        <footer class="mt-8 text-white font-bold bg-black/30 px-6 py-2 rounded-full">تصميم أ. محمد خليل</footer>
+        <footer class="mt-8 text-white font-bold bg-black/30 px-6 py-2 rounded-full mb-4">تصميم أ. محمد خليل</footer>
     </div>
 
-    <div id="gameScreen" class="hidden h-full w-full max-w-7xl mx-auto p-4 flex flex-col md:flex-row gap-6 items-center justify-center">
-        <div class="w-full md:w-80 flex flex-col gap-4 self-start mt-4">
-            <div class="glass-panel p-4 text-center bg-yellow-50">
-                <p class="text-gray-500 font-bold text-sm">الدور على الفريق:</p>
-                <h2 id="currentTeamName" class="text-3xl font-black text-purple-700 mt-1">مجموعة 1</h2>
+    <div id="gameScreen" class="hidden min-h-screen w-full max-w-7xl mx-auto p-2 md:p-4 flex flex-col md:flex-row gap-6 items-center justify-center">
+        <div class="w-full md:w-80 flex flex-col gap-2 md:gap-4 self-start mt-2 md:mt-4">
+            <div class="glass-panel p-2 md:p-4 text-center bg-yellow-50 flex flex-row md:flex-col justify-between items-center md:justify-center">
+                <p class="text-gray-500 font-bold text-sm md:mb-1">الدور على:</p>
+                <h2 id="currentTeamName" class="text-xl md:text-3xl font-black text-purple-700">مجموعة 1</h2>
             </div>
-            <div class="glass-panel p-4 flex-1 flex flex-col max-h-[500px]">
+            <div class="glass-panel p-2 md:p-4 flex-1 flex flex-col max-h-[150px] md:max-h-[500px]">
                 <div class="flex justify-between items-center border-b pb-2 mb-2">
-                    <h3 class="text-lg font-bold text-gray-700">النتائج</h3> <span class="text-2xl">🏆</span>
+                    <h3 class="text-md md:text-lg font-bold text-gray-700">النتائج</h3> <span class="text-xl md:text-2xl">🏆</span>
                 </div>
-                <div id="scoreboard" class="space-y-2 overflow-y-auto flex-1 p-1"></div>
-                <div class="mt-2 text-center bg-purple-100 rounded-lg p-2 font-bold text-purple-800">السؤال: <span id="qNum" class="text-xl">1</span> / 32</div>
+                <div id="scoreboard" class="space-y-1 md:space-y-2 overflow-y-auto flex-1 p-1"></div>
+                <div class="mt-2 text-center bg-purple-100 rounded-lg p-1 md:p-2 font-bold text-purple-800 text-sm md:text-base">السؤال: <span id="qNum" class="text-lg md:text-xl">1</span> / 32</div>
             </div>
         </div>
 
-        <div class="flex-1 flex flex-col items-center justify-center relative w-full">
-            <div id="wheelSection" class="flex flex-col items-center justify-center transform transition-all duration-500">
+        <div class="flex-1 flex flex-col items-center justify-center relative w-full mb-10">
+            <div id="wheelSection" class="flex flex-col items-center justify-center transform transition-all duration-500 py-10">
                 <div class="wheel-wrapper mb-8">
                     <div class="pointer-container">
                         <svg width="60" height="70" viewBox="0 0 50 60"><path d="M25 60 L0 0 L50 0 Z" fill="#eab308" stroke="#a16207" stroke-width="3"/><circle cx="25" cy="5" r="5" fill="#713f12"/></svg>
                     </div>
-                    <svg id="wheel" class="wheel-svg cursor-pointer w-[350px] h-[350px] md:w-[500px] md:h-[500px]" viewBox="0 0 400 400">
+                    <svg id="wheel" class="wheel-svg cursor-pointer w-[280px] h-[280px] md:w-[500px] md:h-[500px]" viewBox="0 0 400 400">
                         <defs><radialGradient id="gradShadow" cx="50%" cy="50%" r="50%" fx="50%" fy="50%"><stop offset="85%" style="stop-color:rgb(0,0,0,0)" /><stop offset="100%" style="stop-color:rgb(0,0,0,0.3)" /></radialGradient></defs>
                         <circle cx="200" cy="200" r="198" fill="#333" /><g id="wheelSegments"></g><circle cx="200" cy="200" r="198" fill="url(#gradShadow)" pointer-events="none"/>
                         <circle cx="200" cy="200" r="50" fill="#f3f4f6" stroke="#9ca3af" stroke-width="2"/><circle cx="200" cy="200" r="40" fill="#ef4444" stroke="#b91c1c" stroke-width="0" style="filter: drop-shadow(0 4px 2px rgba(0,0,0,0.3))"/>
                         <text x="200" y="210" text-anchor="middle" font-size="28" font-weight="900" fill="white" style="text-shadow: 1px 1px 0px #991b1b; pointer-events: none;">أدر</text>
                     </svg>
                 </div>
-                <button onclick="triggerSpin()" class="btn-3d text-2xl font-bold py-3 px-12 animate-bounce">اضغط للدوران 🎲</button>
+                <button onclick="triggerSpin()" class="btn-3d text-xl md:text-2xl font-bold py-3 px-12 animate-bounce">اضغط للدوران 🎲</button>
             </div>
 
             <div id="questionSection" class="hidden w-full max-w-3xl transform transition-all duration-500 scale-95 opacity-0">
-                <div class="flex justify-center mb-6">
-                    <div class="bg-white rounded-full w-24 h-24 flex items-center justify-center border-8 border-purple-300 shadow-xl relative z-10">
-                        <span id="timer" class="text-4xl font-black text-gray-700">60</span>
+                <div class="flex justify-center mb-4 md:mb-6">
+                    <div class="bg-white rounded-full w-16 h-16 md:w-24 md:h-24 flex items-center justify-center border-4 md:border-8 border-purple-300 shadow-xl relative z-10">
+                        <span id="timer" class="text-2xl md:text-4xl font-black text-gray-700">60</span>
                     </div>
                 </div>
-                <div class="glass-panel p-8 md:p-12 relative -mt-12 pt-16 text-center">
-                    <h2 class="text-purple-600 font-bold text-xl mb-4 bg-purple-50 inline-block px-4 py-1 rounded-full">سؤال التحدي</h2>
+                <div class="glass-panel p-4 md:p-12 relative -mt-8 md:-mt-12 pt-10 md:pt-16 text-center">
+                    <h2 class="text-purple-600 font-bold text-lg md:text-xl mb-2 md:mb-4 bg-purple-50 inline-block px-4 py-1 rounded-full">سؤال التحدي</h2>
                     <img id="qImage" src="" class="q-img-frame hidden">
                     <div id="chartContainer" class="chart-container hidden"></div>
-                    <p id="qText" class="text-2xl md:text-3xl font-bold text-gray-800 mb-8 leading-relaxed"></p>
-                    <div id="optionsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+                    <p id="qText" class="text-lg md:text-3xl font-bold text-gray-800 mb-4 md:mb-8 leading-relaxed"></p>
+                    <div id="optionsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4"></div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div id="resultScreen" class="hidden fixed inset-0 z-[60] bg-black/60 backdrop-blur flex items-center justify-center p-4">
-        <div class="bg-white p-10 rounded-3xl shadow-2xl text-center max-w-2xl w-full border-4 border-purple-300">
-            <div class="text-8xl mb-4 animate-bounce">🏆</div>
-            <h2 class="text-5xl font-black text-purple-700 mb-6">النتائج النهائية</h2>
-            <div class="flex justify-center gap-6 mb-8">
-                <div class="bg-green-50 p-4 rounded-xl border-2 border-green-200 w-1/3"><p class="text-green-700 font-bold">✅ صحيحة</p><p id="finalCorrect" class="text-4xl font-black text-green-600">0</p></div>
-                <div class="bg-red-50 p-4 rounded-xl border-2 border-red-200 w-1/3"><p class="text-red-700 font-bold">❌ خاطئة</p><p id="finalWrong" class="text-4xl font-black text-red-600">0</p></div>
+    <div id="resultScreen" class="hidden fixed inset-0 z-[60] bg-black/60 backdrop-blur flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white p-6 md:p-10 rounded-3xl shadow-2xl text-center max-w-2xl w-full border-4 border-purple-300 m-auto">
+            <div class="text-6xl md:text-8xl mb-4 animate-bounce">🏆</div>
+            <h2 class="text-3xl md:text-5xl font-black text-purple-700 mb-6">النتائج النهائية</h2>
+            <div class="flex justify-center gap-4 md:gap-6 mb-8">
+                <div class="bg-green-50 p-2 md:p-4 rounded-xl border-2 border-green-200 w-1/3"><p class="text-green-700 font-bold text-sm md:text-base">✅ صحيحة</p><p id="finalCorrect" class="text-2xl md:text-4xl font-black text-green-600">0</p></div>
+                <div class="bg-red-50 p-2 md:p-4 rounded-xl border-2 border-red-200 w-1/3"><p class="text-red-700 font-bold text-sm md:text-base">❌ خاطئة</p><p id="finalWrong" class="text-2xl md:text-4xl font-black text-red-600">0</p></div>
             </div>
             <div id="finalRanking" class="bg-gray-50 p-4 rounded-xl mb-8 space-y-2 text-right border border-gray-200 max-h-40 overflow-y-auto"></div>
-            <button onclick="location.reload()" class="btn-3d text-2xl font-bold py-3 px-12 w-full">لعبة جديدة 🔄</button>
+            <button onclick="location.reload()" class="btn-3d text-xl md:text-2xl font-bold py-3 px-12 w-full">لعبة جديدة 🔄</button>
         </div>
     </div>
 
     <script>
-        // ==========================================
-        //  إعدادات الصوت (الاسم الجديد: game_audio.mp3)
-        // ==========================================
+        // إعدادات الصوت
         const audioFiles = { 
-            bg: new Audio('game_audio.mp3'),  // تأكد من أن ملفك في المجلد بهذا الاسم
-            spin: new Audio('spin.mp3'), 
-            correct: new Audio('correct.mp3'), 
-            wrong: new Audio('wrong.mp3') 
+            bg: new Audio('https://i.top4top.io/m_3694tdvbo1.mp3'), 
+            // تم حذف رابط صوت الدوران لضمان عدم التداخل
+            // spin: new Audio('...'), 
+            correct: new Audio('https://a.top4top.io/m_36949p7371.mp3'), 
+            wrong: new Audio('https://b.top4top.io/m_3694toimd1.mp3') 
         };
         
-        // تفعيل التكرار (Loop) للموسيقى
         audioFiles.bg.loop = true; 
-        
         let isMuted = false;
 
         function playBackgroundMusic() { 
             if(isMuted) return; 
-            // الشرط: شغل الموسيقى فقط إذا كانت متوقفة، لكي لا تعيد من البداية
             if(audioFiles.bg.paused) { 
                 audioFiles.bg.play().catch(e => console.log("User interaction needed")); 
             } 
@@ -154,14 +155,22 @@
         function playSfx(name) { 
             if(isMuted) return; 
             try { 
-                audioFiles[name].currentTime = 0; 
-                audioFiles[name].play().catch(e => {}); 
+                if(audioFiles[name]) {
+                    audioFiles[name].currentTime = 0; 
+                    audioFiles[name].play().catch(e => {}); 
+                }
             } catch(e) {} 
         }
         
         function toggleMute() { 
             isMuted = !isMuted; 
             document.getElementById('muteBtn').textContent = isMuted ? '🔇' : '🔊'; 
+            
+            // كتم فوري لجميع الأصوات
+            Object.values(audioFiles).forEach(audio => {
+                audio.muted = isMuted;
+            });
+
             if(isMuted) { 
                 audioFiles.bg.pause(); 
             } else { 
@@ -172,7 +181,7 @@
         const teams = ['الأبطال 🦁', 'العباقرة 💡', 'المبدعون 🎨', 'المحترفون 🚀'];
         let rotation = 0; let isSpinning = false;
         
-        // مولدات الرسوم
+        // مولدات الرسوم (SVG)
         const createBarChart = (data, maxVal) => {
             const chartH = 260, drawH = 200, startX = 50, steps = 5;
             let svg = `<svg viewBox="0 0 380 ${chartH}" class="chart-svg">`;
@@ -303,7 +312,8 @@
 
         function triggerSpin() {
             if(isSpinning || state.qList.length === 0) return;
-            isSpinning = true; playSfx('spin');
+            isSpinning = true; 
+            // تم حذف تشغيل صوت الدوران نهائياً من هنا
             const wheel = document.getElementById('wheel');
             const extraSpins = 5 + Math.floor(Math.random() * 5); 
             const count = Math.min(state.qList.length, 8);
@@ -349,7 +359,7 @@
             const grid = document.getElementById('optionsGrid'); grid.innerHTML = '';
             state.currentQ.o.forEach((opt, i) => {
                 const btn = document.createElement('button');
-                btn.className = 'option-btn w-full p-4 text-xl font-bold text-gray-700 text-right';
+                btn.className = 'option-btn w-full p-2 md:p-4 text-lg md:text-xl font-bold text-gray-700 text-right h-full';
                 btn.textContent = opt; btn.onclick = () => checkAnswer(i, btn); grid.appendChild(btn);
             });
             startTimer();
@@ -387,7 +397,7 @@
             teams.forEach((t, i) => {
                 const div = document.createElement('div');
                 div.className = `flex justify-between p-2 rounded-lg items-center ${i === state.turn ? 'bg-purple-100 border border-purple-300 font-bold shadow-sm' : 'bg-white border border-gray-100'}`;
-                div.innerHTML = `<span class="text-gray-700">${t}</span> <span class="bg-green-100 text-green-700 px-2 py-1 rounded-md text-sm font-bold">${state.scores[i]}✅</span>`;
+                div.innerHTML = `<span class="text-gray-700 text-sm md:text-base">${t}</span> <span class="bg-green-100 text-green-700 px-2 py-1 rounded-md text-sm font-bold">${state.scores[i]}✅</span>`;
                 board.appendChild(div);
             });
         }
